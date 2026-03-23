@@ -1004,6 +1004,17 @@ class serve implements cacheable_object {
                     ['type' => single_button::BUTTON_DANGER]
                 );
                 $hasbuttons = true;
+
+                // Extra Page list button after Delete page.
+                if (has_capability('local/pg:viewhidden', \context_system::instance())) {
+                    $pageslisturl = new moodle_url('/local/pg/pages_admin.php');
+                    echo $OUTPUT->single_button(
+                        $pageslisturl,
+                        'Page list',
+                        'get',
+                        ['type' => single_button::BUTTON_SECONDARY]
+                    );
+                }
             }
 
             if ($hasbuttons) {
