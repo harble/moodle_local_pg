@@ -489,7 +489,9 @@ class serve implements cacheable_object {
             return $this->url;
         }
 
-        $this->url = new moodle_url('/local/pg/' . $this->get_page_shortname(), ['page' => $this->id]);
+        // Use index.php with slash arguments as the script, so that
+        // block actions (add/delete/move) target an existing PHP file.
+        $this->url = new moodle_url('/local/pg/index.php/' . $this->get_page_shortname(), ['page' => $this->id]);
 
         return $this->url;
     }
