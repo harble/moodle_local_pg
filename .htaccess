@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+# Redirect all requests to index.php for routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?shortname=$1 [L,QSA]
+
+</IfModule>
+# If mod_rewrite is disabled, use ErrorDocument as a fallback
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 /local/pg/index.php
+</IfModule>
