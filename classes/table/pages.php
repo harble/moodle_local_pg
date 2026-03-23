@@ -132,17 +132,22 @@ class pages extends table_sql {
      */
     public function col_urls($row) {
         global $CFG;
-        $links = html_writer::start_tag('ul');
+        $links = [];
+        $index = 1;
 
         foreach (self::BASE_URLS as $base) {
             $url = str_replace('{shortname}', $row->shortname, $base);
             $url = str_replace('{id}', $row->id, $url);
             $url = $CFG->wwwroot . $url;
-            $links .= html_writer::tag('li', \html_writer::link($url, $url));
-        }
-        $links .= html_writer::end_tag('ul');
 
-        return $links;
+            // Display a short numeric label (01, 02, ... 08) and keep the full URL in the title.
+            $label = sprintf('%02d', $index);
+            $links[] = html_writer::link($url, $label, ['title' => $url]);
+            $index++;
+        }
+
+        // Join all links on a single line separated by spaces.
+        return implode(' ', $links);
     }
 
     /**
