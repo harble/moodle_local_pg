@@ -4,6 +4,12 @@
     flex: 1 0 48%;
 }
 
+/* Admin pages list: keep Page Urls numbers (01-08) on one line and give column more space. */
+#page-local-pg-pages_admin table.generaltable td.c3 {
+    white-space: nowrap;
+    min-width: 180px;
+}
+
 .path-local-pg.page-404 {
     @import url("https://fonts.googleapis.com/css?family=Audiowide&display=swap");
 }

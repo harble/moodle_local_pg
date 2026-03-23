@@ -51,18 +51,17 @@ class pages extends table_sql {
     public function __construct() {
         parent::__construct('pages_reports_ids');
         $columns = [
-            'id'           => get_string('pageid', 'local_pg'),
+            'id'           => 'ID',
             'shortname'    => get_string('shortname'),
             'title'        => get_string('title', 'local_pg'),
             'urls'         => get_string('page_urls', 'local_pg'),
             'visible'      => get_string('visible'),
-            'pnav'         => get_string('pnav', 'local_pg'),
-            'snav'         => get_string('snav', 'local_pg'),
-            'parent'       => get_string('parent', 'local_pg'),
-            'layout'       => get_string('layout', 'local_pg'),
-            'usermodified' => get_string('usermodified', 'local_pg'),
+            'pnav'         => 'ShowPN',
+            'snav'         => 'ShowSN',
+            'parent'       => 'ParentPg',
+            'layout'       => 'PgLayout',
+            'usermodified' => 'User',
             'timemodified' => get_string('timemodified', 'data'),
-            'timecreated'  => get_string('timecreated'),
             'actions'      => get_string('actions'),
         ];
         $this->define_columns(array_keys($columns));
@@ -84,7 +83,6 @@ class pages extends table_sql {
             'pnav',
             'snav',
             'parent',
-            'timecreated',
             'timemodified',
         ];
         $userfields = \core_user\fields::for_name();
@@ -185,8 +183,10 @@ class pages extends table_sql {
                 return self::col_fullname($row);
 
             case 'timemodified':
+                return userdate($row->timemodified, '%Y/%m/%d %H:%M:%S');
+
             case 'timecreated':
-                return userdate($row->$column);
+                return userdate($row->timecreated, '%Y/%m/%d %H:%M:%S');
 
             case 'layout':
                 return helper::get_layout_options()[$row->layout];
