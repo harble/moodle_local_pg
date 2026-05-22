@@ -902,6 +902,10 @@ class serve implements cacheable_object {
      */
     public function serve() {
         global $PAGE, $OUTPUT, $FULLME, $CFG;
+        $embed = optional_param('embed', 0, PARAM_BOOL);
+        if (empty($embed) && preg_match('/(?:\?|&)embed=(?:1|true)(?:&|$)/i', $FULLME)) {
+            $embed = 1;
+        }
 
         if ($this->get_page_shortname() === 'faq') {
             $fullme = (new moodle_url($FULLME))->out_omit_querystring();
@@ -971,6 +975,25 @@ class serve implements cacheable_object {
         $this->inject_css();
 
         echo $OUTPUT->header();
+
+        if (!empty($embed)) {
+            echo '<style>
+                body.local-pg-' . $this->get_page_shortname() . ' nav,
+                body.local-pg-' . $this->get_page_shortname() . ' #page-header,
+                body.local-pg-' . $this->get_page_shortname() . ' .navbar,
+                body.local-pg-' . $this->get_page_shortname() . ' #page-footer {
+                    display: none;
+                }
+
+                body.local-pg-' . $this->get_page_shortname() . ' #page {
+                    margin-top: -30px !important;
+                }
+
+                body.local-pg-' . $this->get_page_shortname() . ' .card {
+                    border: 0;
+                }
+            </style>';
+        }
 
         if ($PAGE->user_is_editing()) {
             $hasbuttons = false;

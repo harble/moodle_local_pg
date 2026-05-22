@@ -36,13 +36,9 @@ class pages extends table_sql {
      */
     public const BASE_URLS = [
         '/local/pg/{shortname}',
-        '/?/{shortname}',
         '/local/pg/index.php/{shortname}',
-        '/local/pg/?/{shortname}',
         '/local/pg/p.php/{shortname}',
-        '/local/pg/?page={id}',
         '/local/pg/index.php?page={id}',
-        '/local/pg/p.php?page={id}',
     ];
 
     /**
@@ -132,16 +128,23 @@ class pages extends table_sql {
         global $CFG;
         $links = [];
         $index = 1;
+        $embedindex = 1;
 
         foreach (self::BASE_URLS as $base) {
             $url = str_replace('{shortname}', $row->shortname, $base);
             $url = str_replace('{id}', $row->id, $url);
             $url = $CFG->wwwroot . $url;
 
-            // Display a short numeric label (01, 02, ... 08) and keep the full URL in the title.
+            // Display short labels for common URLs.
             $label = sprintf('%02d', $index);
-            $links[] = html_writer::link($url, $label, ['title' => $url]);
+            $links[] = html_writer::link($url, $label, ['title' => $url, 'class' => 'text-primary']);
+
+            $embedurl = $url . (strpos($url, '?') === false ? '?' : '&') . 'embed=1';
+            $embedlabel = 'E' . $embedindex;
+            $links[] = html_writer::link($embedurl, $embedlabel, ['title' => $embedurl, 'class' => 'text-danger']);
+
             $index++;
+            $embedindex++;
         }
 
         // Join all links on a single line separated by spaces.
