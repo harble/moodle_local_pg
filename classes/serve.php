@@ -981,6 +981,7 @@ class serve implements cacheable_object {
                 body.local-pg-' . $this->get_page_shortname() . ' nav,
                 body.local-pg-' . $this->get_page_shortname() . ' #page-header,
                 body.local-pg-' . $this->get_page_shortname() . ' .navbar,
+                body.local-pg-' . $this->get_page_shortname() . ' #footnote,
                 body.local-pg-' . $this->get_page_shortname() . ' #page-footer {
                     display: none;
                 }
